@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
+app.use(express.static('public'));
 
   // parse incoming string or array data
   app.use(express.urlencoded({ extended: true }));
@@ -119,6 +120,10 @@ app.post('/api/animals', (req, res) => {
       const animal = createNewAnimal(req.body, animals);
       res.json(animal);
     }
+  });
+
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
   });
 
   
