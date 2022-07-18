@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const { animals } = require('./data/animals');
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -9,6 +11,13 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+//This is our way of telling the server that any time a client navigates to <ourhost>/api,
+// the app will use the router we set up in apiRoutes.
+// If / is the endpoint, then the router will serve back our HTML routes.
+app.use('/api', apiRoutes);
+app.use('/', htmlRoutes);
+
 
 function filterByQuery(query, animalsArray) { 
   let personalityTraitsArray = [];
